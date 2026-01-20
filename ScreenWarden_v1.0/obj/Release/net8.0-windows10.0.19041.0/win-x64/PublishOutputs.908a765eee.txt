@@ -1,7 +1,0 @@
-C:\MSSA Code-github\ScreenWarden\ScreenWarden.pdb
-C:\MSSA Code-github\ScreenWarden\D3DCompiler_47_cor3.dll
-C:\MSSA Code-github\ScreenWarden\PenImc_cor3.dll
-C:\MSSA Code-github\ScreenWarden\PresentationNative_cor3.dll
-C:\MSSA Code-github\ScreenWarden\vcruntime140_cor3.dll
-C:\MSSA Code-github\ScreenWarden\wpfgfx_cor3.dll
-C:\MSSA Code-github\ScreenWarden\ScreenWarden.exe
