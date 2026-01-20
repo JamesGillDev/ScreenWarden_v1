@@ -1,3 +1,49 @@
-# ScreenWarden_v1
-Windows desktop utility that captures screenshots on demand, with optional voice-command control and tray notifications—built to make quick capture fast, reliable, and distraction-free.
-ScreenWarden_v1 is a lightweight Windows app for capturing screenshots quickly and consistently. It supports an always-ready workflow (tray presence, clear status feedback, and optional voice-triggered actions) so you can capture what you need without breaking focus. Built for speed, clarity, and future expansion (hotkeys, region capture, multi-monitor support, and more).
+# ScreenWarden
+
+A lightweight Windows desktop utility for fast, distraction-free screenshots with optional voice control and system tray operation.
+
+ScreenWarden was built to support focused workflows where stopping to manage UI or file dialogs breaks concentration. 
+The app stays resident in the system tray, provides clear feedback, and allows screenshots to be captured instantly — including via optional voice commands.
+
+## Features
+
+- One-click screenshot capture
+- Optional voice-command activation
+- Runs quietly in the Windows system tray
+- Visual and audio feedback on capture
+- Automatic file naming
+- Designed for fast, repeatable use
+
+## How It Works
+
+ScreenWarden is a WPF desktop application built on .NET.  
+It initializes as a background process with a tray icon and listens for user input via UI interaction or optional voice commands.
+
+Screenshot capture is handled by a dedicated service layer, separating UI concerns from system interaction. 
+This structure allows future expansion such as region capture, hotkeys, or multi-monitor support.
+
+## Download
+
+A prebuilt Windows executable is available on the Releases page:
+
+➡ Download ScreenWarden for Windows:  
+https://github.com/JamesGillDev/ScreenWarden_v1/releases
+
+## Tech Stack
+
+- C#
+- .NET 8
+- WPF
+- Windows Desktop APIs
+
+## Status
+
+This project is actively developed. Planned enhancements include:
+- Global hotkey support
+- Region-based capture
+- Multi-monitor awareness
+- Optional image preview overlay
+
+## License
+
+This project is licensed under the MIT License.
