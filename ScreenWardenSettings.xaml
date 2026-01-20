@@ -1,0 +1,3 @@
+<ComboBox x:Name="modeComboBox" Foreground="White" Background="Black">
+    <!-- ...existing items... -->
+</ComboBox>
