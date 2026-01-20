@@ -7,9 +7,10 @@
     <Application.Resources>
 
         <tb:TaskbarIcon x:Key="TrayIcon"
-                        IconSource="pack://application:,,,/ScreenWarden;component/Assets/screenwarden.ico"
+                        IconSource="/Assets/screenwarden.ico"
                         ToolTipText="ScreenWarden"
                         MenuActivation="RightClick">
+            <!-- IconSource removed until valid .ico is available -->
 
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu x:Name="TrayMenu">

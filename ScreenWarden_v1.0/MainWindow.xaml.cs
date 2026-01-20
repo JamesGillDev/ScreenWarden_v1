@@ -103,16 +103,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private void FontCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (FontCombo.SelectedItem is System.Windows.Media.FontFamily selectedFont)
-        {
-            // Assuming you have an AppSettings instance called 'settings'
-            _settings.FontFamily = selectedFont.Source;
-            // Optionally, apply the font to the UI or save settings here
-        }
-    }
-
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
         // Tray app should stay alive — hide window instead of closing.

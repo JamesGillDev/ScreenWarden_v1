@@ -11,3 +11,11 @@ obj/
 # Rider / VS
 *.user
 *.suo
+
+# Python artifacts (not used in this project)
+*.py
+*.pyc
+*.spec
+__pycache__/
+build/
+dist/

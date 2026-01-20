@@ -2,29 +2,25 @@
 	
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
-	  <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-
-	      <Nullable>enable</Nullable>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	  <UseWPF>true</UseWPF>
-<UseWindowsForms>true</UseWindowsForms>
-<UseSystemDrawing>true</UseSystemDrawing>
-	  <UseWindowsForms>true</UseWindowsForms>
-	      
+    <UseWindowsForms>true</UseWindowsForms>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <ApplicationIcon>Assets\screenwarden.ico</ApplicationIcon>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 </PropertyGroup>
 
-<PropertyGroup>
-	<PublishTrimmed>false</PublishTrimmed>
-</PropertyGroup>
-
-	<ItemGroup>
+<ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageReference Include="System.Speech" Version="10.0.1" />
-  </ItemGroup>
+</ItemGroup>
 
-  <ItemGroup>
+<ItemGroup>
     <Resource Include="Assets\screenwarden.ico" />
-  </ItemGroup>
+</ItemGroup>
 
 </Project>
