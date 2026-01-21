@@ -25,7 +25,8 @@ This structure allows future expansion such as region capture, hotkeys, or multi
 ## Screenshots
 
 ### Settings
-![Settings Window](<img width="506" height="343" alt="settings-active" src="https://github.com/user-attachments/assets/da618f14-fd96-481a-bcf6-a4c41eee79ec" />)
+<img width="506" height="343" alt="settings-active" src="https://github.com/user-attachments/assets/cd4b506e-1df2-4106-8b2d-faf9aaf82ac8" />
+
 
 ![Settings Window](\docs\screenshots\settings-mouse.png)
 
