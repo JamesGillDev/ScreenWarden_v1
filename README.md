@@ -38,7 +38,7 @@ Captures the currently active window for precise, focused screenshots.
 
 ### Settings – Mouse Cursor Monitor
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/fa91d447-0929-44d3-a2e6-254e10db0ade" width="520" />
+  <img width="506" height="343" alt="settings-mouse" src="https://github.com/user-attachments/assets/139ebd98-7362-4f1e-909e-c580cd88e5ec" />
 </p>
 
 Tracks the monitor containing the mouse cursor and captures that display.
@@ -47,7 +47,7 @@ Tracks the monitor containing the mouse cursor and captures that display.
 
 ### System Tray Icon
 <p align="center">
-  <img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/8fb0d349-a611-44b2-a2f8-dd23a86919c8" />
+  <img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/a4decc30-9072-425f-b992-d8d83183593c" />
 </p>
 
 Always-on tray presence for quick access without interrupting workflow.
@@ -56,7 +56,7 @@ Always-on tray presence for quick access without interrupting workflow.
 
 ### Tray Menu
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/930ea180-6380-4e74-b96e-ca8c6361cfd2" width="300" />
+  <img width="217" height="144" alt="tray-menu" src="https://github.com/user-attachments/assets/08e8265a-a097-415c-9c39-47a0c886b890" />
 </p>
 
 Quick actions for capture, mode switching, settings, and exit.
