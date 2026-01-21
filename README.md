@@ -47,7 +47,7 @@ Tracks the monitor containing the mouse cursor and captures that display.
 
 ### System Tray Icon
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d805c1ef-fedd-49b9-bc19-2bf2b2dbcf4b" width="260" />
+  <img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/8fb0d349-a611-44b2-a2f8-dd23a86919c8" />
 </p>
 
 Always-on tray presence for quick access without interrupting workflow.
