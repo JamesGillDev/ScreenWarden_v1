@@ -20,9 +20,22 @@ public partial class MainWindow : Window
 
         _settings = settings;
 
+        // Initialize NotifyIcon early for balloon notifications
+        InitializeNotifyIcon();
+
         // Populate mode dropdown
         ModeCombo.ItemsSource = Enum.GetValues(typeof(CaptureMode));
         SyncFromSettings();
+    }
+
+    private void InitializeNotifyIcon()
+    {
+        _notifyIcon = new System.Windows.Forms.NotifyIcon
+        {
+            Icon = System.Drawing.SystemIcons.Information,
+            Visible = true,
+            Text = "ScreenWarden"
+        };
     }
 
     public void SyncFromSettings()
@@ -76,12 +89,10 @@ public partial class MainWindow : Window
         {
             StatusText.Text = $"Capturing in {_settings.Mode}...";
 
-            // Optional delay (if you have CaptureDelayMs in settings)
-            // If you don’t, it’ll just capture immediately.
             int delayMs = 0;
             try { delayMs = _settings.CaptureDelayMs; } catch { /* ignore */ }
 
-            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(delayMs) };
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(Math.Max(delayMs, 100)) };
             timer.Tick += (_, __) =>
             {
                 timer.Stop();
@@ -89,7 +100,7 @@ public partial class MainWindow : Window
                 {
                     string path = ScreenCaptureService.CaptureToFile(_settings);
                     StatusText.Text = $"Saved: {path}";
-                    ShowSavedToast(path); // Show toast notification
+                    ShowSavedToast(path);
                 }
                 catch (Exception ex)
                 {
@@ -114,13 +125,11 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        // Initialize NotifyIcon for balloon notifications
-        _notifyIcon = new System.Windows.Forms.NotifyIcon
+        // Ensure NotifyIcon is ready
+        if (_notifyIcon == null)
         {
-            Icon = System.Drawing.SystemIcons.Application,
-            Visible = true,
-            Text = "ScreenWarden"
-        };
+            InitializeNotifyIcon();
+        }
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
