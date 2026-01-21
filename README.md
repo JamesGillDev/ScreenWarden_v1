@@ -25,14 +25,41 @@ This structure allows future expansion such as region capture, hotkeys, or multi
 ## Screenshots
 
 ### Settings
-Settings Active Window Monitor
-<img width="506" height="343" alt="settings-active" src="https://github.com/user-attachments/assets/cd4b506e-1df2-4106-8b2d-faf9aaf82ac8" />
-Settings Mouse Cursor Monitor
-<img width="506" height="343" alt="settings-mouse" src="https://github.com/user-attachments/assets/fa91d447-d929-44d3-a2e6-254e10db0ade" />
-Tray Icon
-<img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/d805c1ef-fedd-49b9-bc19-2bf2b2dbcf4b" />
-Tray Menui
-<img width="173" height="109" alt="tray-menu" src="https://github.com/user-attachments/assets/930ea180-6380-4e74-b96e-ca8c6361cfd2" />
+## Screenshots
+
+### Settings – Active Window Monitor
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cd4b506e-1df2-4106-8b2d-faf9aaf82ac8" width="520" />
+</p>
+
+Captures the currently active window for precise, focused screenshots.
+
+---
+
+### Settings – Mouse Cursor Monitor
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/fa91d447-0929-44d3-a2e6-254e10db0ade" width="520" />
+</p>
+
+Tracks the monitor containing the mouse cursor and captures that display.
+
+---
+
+### System Tray Icon
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d805c1ef-fedd-49b9-bc19-2bf2b2dbcf4b" width="260" />
+</p>
+
+Always-on tray presence for quick access without interrupting workflow.
+
+---
+
+### Tray Menu
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/930ea180-6380-4e74-b96e-ca8c6361cfd2" width="300" />
+</p>
+
+Quick actions for capture, mode switching, settings, and exit.
 
 ## Download
 
