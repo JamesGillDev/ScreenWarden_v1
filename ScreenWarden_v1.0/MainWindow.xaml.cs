@@ -12,6 +12,7 @@ namespace ScreenWarden;
 public partial class MainWindow : Window
 {
     private readonly AppSettings _settings;
+    private System.Windows.Forms.NotifyIcon? _notifyIcon;
 
     public MainWindow(AppSettings settings)
     {
@@ -88,6 +89,7 @@ public partial class MainWindow : Window
                 {
                     string path = ScreenCaptureService.CaptureToFile(_settings);
                     StatusText.Text = $"Saved: {path}";
+                    ShowSavedToast(path); // Show toast notification
                 }
                 catch (Exception ex)
                 {
@@ -108,5 +110,54 @@ public partial class MainWindow : Window
         // Tray app should stay alive — hide window instead of closing.
         e.Cancel = true;
         Hide();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        // Initialize NotifyIcon for balloon notifications
+        _notifyIcon = new System.Windows.Forms.NotifyIcon
+        {
+            Icon = System.Drawing.SystemIcons.Application,
+            Visible = true,
+            Text = "ScreenWarden"
+        };
+    }
+
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        // Clean up NotifyIcon
+        if (_notifyIcon != null)
+        {
+            _notifyIcon.Visible = false;
+            _notifyIcon.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Shows a balloon/toast notification
+    /// </summary>
+    /// <param name="title">Notification title</param>
+    /// <param name="message">Notification message</param>
+    /// <param name="icon">Icon type (default: Info)</param>
+    private void ShowToast(string title, string message, System.Windows.Forms.ToolTipIcon icon = System.Windows.Forms.ToolTipIcon.Info)
+    {
+        _notifyIcon?.ShowBalloonTip(3000, title, message, icon);
+    }
+
+    /// <summary>
+    /// Shows "Voice commands ON" notification
+    /// </summary>
+    public void ShowVoiceCommandsOnToast()
+    {
+        ShowToast("ScreenWarden", "Voice commands ON");
+    }
+
+    /// <summary>
+    /// Shows "Saved: [path]" notification
+    /// </summary>
+    /// <param name="filePath">Path where file was saved</param>
+    public void ShowSavedToast(string filePath)
+    {
+        ShowToast("ScreenWarden", $"Saved: {filePath}");
     }
 }
