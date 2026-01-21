@@ -22,9 +22,15 @@ It initializes as a background process with a tray icon and listens for user inp
 Screenshot capture is handled by a dedicated service layer, separating UI concerns from system interaction. 
 This structure allows future expansion such as region capture, hotkeys, or multi-monitor support.
 
-## Screenshots
+## Key Features
 
-### Settings
+- Background tray-based Windows utility
+- Active Window or Mouse Cursor capture modes
+- One-click capture from tray or settings window
+- Optional voice-triggered commands
+- Clean Windows 11–styled WPF UI
+- Designed for speed and minimal disruption
+
 ## Screenshots
 
 ### Settings – Active Window Monitor
