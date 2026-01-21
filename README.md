@@ -25,12 +25,12 @@ This structure allows future expansion such as region capture, hotkeys, or multi
 ## Screenshots
 
 ### Settings
-![Settings Window](/docs/screenshots/settings-active.png")
-![Settings Window](/docs/screenshots/settings-mouse.png")
+![Settings Window](\docs\screenshots\settings-active.png)
+![Settings Window](\docs\screenshots\settings-mouse.png)
 
 ### Tray Menu / Tray Icon
-![Tray Menu](docs/screenshots/tray-menu.png)
-![Tray Menu](docs/screenshots/tray-icon.png)
+![Tray Menu](\docs\screenshots\tray-menu.png)
+![Tray Menu](\docs\screenshots\tray-icon.png)
 
 ## Download
 
