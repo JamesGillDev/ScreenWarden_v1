@@ -68,11 +68,14 @@ Always-on tray presence for quick access without interrupting workflow.
 Quick actions for capture, mode switching, settings, and exit.
 
 ## Download
+Download the latest release from the Releases page:
+- ScreenWarden_v1.0.0_win-x64_framework-dependent.zip
 
-A prebuilt Windows executable is available on the Releases page:
+## Requirements
+- Windows 10/11 (x64)
+- **.NET 8 Desktop Runtime (Windows x64)**
 
-➡ Download ScreenWarden for Windows:  
-https://github.com/JamesGillDev/ScreenWarden_v1/releases
+If ScreenWarden doesn’t launch, install the .NET Desktop Runtime and try again.
 
 ## Tech Stack
 
