@@ -22,6 +22,16 @@ It initializes as a background process with a tray icon and listens for user inp
 Screenshot capture is handled by a dedicated service layer, separating UI concerns from system interaction. 
 This structure allows future expansion such as region capture, hotkeys, or multi-monitor support.
 
+## Screenshots
+
+### Settings
+![Settings Window](/docs/screenshots/settings-active.png")
+![Settings Window](/docs/screenshots/settings-mouse.png")
+
+### Tray Menu / Tray Icon
+![Tray Menu](docs/screenshots/tray-menu.png)
+![Tray Menu](docs/screenshots/tray-icon.png)
+
 ## Download
 
 A prebuilt Windows executable is available on the Releases page:
