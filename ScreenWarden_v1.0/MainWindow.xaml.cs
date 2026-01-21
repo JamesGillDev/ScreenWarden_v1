@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Microsoft.Win32;
-using Application = System.Windows.Forms.Application;
 using System.Windows.Media;
 
 namespace ScreenWarden;
@@ -12,7 +11,6 @@ namespace ScreenWarden;
 public partial class MainWindow : Window
 {
     private readonly AppSettings _settings;
-    private System.Windows.Forms.NotifyIcon? _notifyIcon;
 
     public MainWindow(AppSettings settings)
     {
@@ -20,22 +18,9 @@ public partial class MainWindow : Window
 
         _settings = settings;
 
-        // Initialize NotifyIcon early for balloon notifications
-        InitializeNotifyIcon();
-
         // Populate mode dropdown
         ModeCombo.ItemsSource = Enum.GetValues(typeof(CaptureMode));
         SyncFromSettings();
-    }
-
-    private void InitializeNotifyIcon()
-    {
-        _notifyIcon = new System.Windows.Forms.NotifyIcon
-        {
-            Icon = System.Drawing.SystemIcons.Information,
-            Visible = true,
-            Text = "ScreenWarden"
-        };
     }
 
     public void SyncFromSettings()
@@ -100,7 +85,12 @@ public partial class MainWindow : Window
                 {
                     string path = ScreenCaptureService.CaptureToFile(_settings);
                     StatusText.Text = $"Saved: {path}";
-                    ShowSavedToast(path);
+                    
+                    // Use App's tray icon for toast
+                    if (System.Windows.Application.Current is App app)
+                    {
+                        app.ShowToast("ScreenWarden", $"Saved: {path}");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -125,48 +115,6 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        // Ensure NotifyIcon is ready
-        if (_notifyIcon == null)
-        {
-            InitializeNotifyIcon();
-        }
-    }
-
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-        // Clean up NotifyIcon
-        if (_notifyIcon != null)
-        {
-            _notifyIcon.Visible = false;
-            _notifyIcon.Dispose();
-        }
-    }
-
-    /// <summary>
-    /// Shows a balloon/toast notification
-    /// </summary>
-    /// <param name="title">Notification title</param>
-    /// <param name="message">Notification message</param>
-    /// <param name="icon">Icon type (default: Info)</param>
-    private void ShowToast(string title, string message, System.Windows.Forms.ToolTipIcon icon = System.Windows.Forms.ToolTipIcon.Info)
-    {
-        _notifyIcon?.ShowBalloonTip(3000, title, message, icon);
-    }
-
-    /// <summary>
-    /// Shows "Voice commands ON" notification
-    /// </summary>
-    public void ShowVoiceCommandsOnToast()
-    {
-        ShowToast("ScreenWarden", "Voice commands ON");
-    }
-
-    /// <summary>
-    /// Shows "Saved: [path]" notification
-    /// </summary>
-    /// <param name="filePath">Path where file was saved</param>
-    public void ShowSavedToast(string filePath)
-    {
-        ShowToast("ScreenWarden", $"Saved: {filePath}");
+        // Nothing needed here now
     }
 }

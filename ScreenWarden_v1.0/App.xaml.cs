@@ -272,4 +272,20 @@ public partial class App : System.Windows.Application
             UpdateTrayModeChecks();
         }
     }
+
+    /// <summary>
+    /// Shows a balloon/toast notification using the tray icon
+    /// </summary>
+    public void ShowToast(string title, string message, BalloonIcon icon = BalloonIcon.Info)
+    {
+        _trayIcon?.ShowBalloonTip(title, message, icon);
+    }
+
+    /// <summary>
+    /// Shows "Voice commands ON" notification
+    /// </summary>
+    public void ShowVoiceCommandsOnToast()
+    {
+        ShowToast("ScreenWarden", "Voice commands ON");
+    }
 }
