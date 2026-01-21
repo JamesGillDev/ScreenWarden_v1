@@ -22,12 +22,60 @@ It initializes as a background process with a tray icon and listens for user inp
 Screenshot capture is handled by a dedicated service layer, separating UI concerns from system interaction. 
 This structure allows future expansion such as region capture, hotkeys, or multi-monitor support.
 
+## Key Features
+
+- Background tray-based Windows utility
+- Active Window or Mouse Cursor capture modes
+- One-click capture from tray or settings window
+- Optional voice-triggered commands
+- Clean Windows 11–styled WPF UI
+- Designed for speed and minimal disruption
+
+## Screenshots
+
+### Settings – Active Window Monitor
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cd4b506e-1df2-4106-8b2d-faf9aaf82ac8" width="520" />
+</p>
+
+Captures the currently active window for precise, focused screenshots.
+
+---
+
+### Settings – Mouse Cursor Monitor
+<p align="center">
+  <img width="506" height="343" alt="settings-mouse" src="https://github.com/user-attachments/assets/139ebd98-7362-4f1e-909e-c580cd88e5ec" />
+</p>
+
+Tracks the monitor containing the mouse cursor and captures that display.
+
+---
+
+### System Tray Icon
+<p align="center">
+  <img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/a4decc30-9072-425f-b992-d8d83183593c" />
+</p>
+
+Always-on tray presence for quick access without interrupting workflow.
+
+---
+
+### Tray Menu
+<p align="center">
+  <img width="217" height="144" alt="tray-menu" src="https://github.com/user-attachments/assets/08e8265a-a097-415c-9c39-47a0c886b890" />
+</p>
+
+Quick actions for capture, mode switching, settings, and exit.
+
 ## Download
+Download the latest release from the Releases page:
+- ScreenWarden_v1.0.0_win-x64_framework-dependent.zip
 
-A prebuilt Windows executable is available on the Releases page:
+## Requirements
+- Windows 10/11 (x64)
+- **.NET 8 Desktop Runtime (Windows x64)**
 
-➡ Download ScreenWarden for Windows:  
-https://github.com/JamesGillDev/ScreenWarden_v1/releases
+If ScreenWarden doesn’t launch, install the .NET Desktop Runtime and try again.
 
 ## Tech Stack
 
