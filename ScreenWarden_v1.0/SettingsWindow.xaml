@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:ScreenWarden.Controls"
         Title="ScreenWarden Settings" 
-        Width="688" Height="294"
-        MinWidth="550" MinHeight="250"
+        Width="240" Height="335"
+        MinWidth="700" MinHeight="294"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResizeWithGrip"
         Background="#1E1E1E">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10">
-        <StackPanel Margin="10">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,10,25,10">
+        <StackPanel Margin="10" Width="631">
             <TextBlock Text="ScreenWarden Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,4" Foreground="White"/>
             <TextBlock Text="Choose how screenshots are captured and where they're saved." 
                        Foreground="Gray" Margin="0,0,0,15"/>
@@ -17,7 +17,7 @@
             <!-- Voice Commands Dropdown and Buttons -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
                 <TextBlock Text="Voice Command" Width="95" VerticalAlignment="Center" Foreground="White"/>
-                <ComboBox x:Name="VoiceCommandsComboBox" Width="275" MinWidth="180" Margin="0,0,8,0"/>
+                <ComboBox x:Name="VoiceCommandsComboBox" Width="200" MinWidth="180" Margin="0,0,8,0"/>
                 <Button x:Name="AddVoiceCommandButton" Content="Add" Padding="10,4" Margin="0,0,5,0" MinWidth="60"/>
                 <Button x:Name="EditVoiceCommandButton" Content="Edit" Padding="10,4" Margin="0,0,5,0" MinWidth="60"/>
                 <Button x:Name="DeleteVoiceCommandButton" Content="Delete" Padding="10,4" Margin="0,0,5,0" MinWidth="60"/>
@@ -26,12 +26,12 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Mode" Width="95" VerticalAlignment="Center" Foreground="White"/>
-                <ComboBox x:Name="ModeComboBox" Width="555" Height="25"/>
+                <ComboBox x:Name="ModeComboBox" Width="476" Height="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Save to" Width="95" VerticalAlignment="Center" Foreground="White"/>
-                <TextBox x:Name="SavePathTextBox" Width="475" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" Height="25">
+                <TextBox x:Name="SavePathTextBox" Width="400" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" Height="25">
                     <TextBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -46,7 +46,7 @@
 
             <Button x:Name="CaptureNowButton" Content="Capture Now" 
                     Padding="20,10" Margin="0,15,0,15" FontSize="14"
-                    HorizontalAlignment="Stretch"/>
+                    HorizontalAlignment="Stretch" Width="271"/>
         </StackPanel>
     </ScrollViewer>
 </Window>

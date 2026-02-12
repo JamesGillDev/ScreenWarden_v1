@@ -10,7 +10,7 @@ public partial class App : System.Windows.Application
     public AppSettings Settings { get; } = new();
 
     private TaskbarIcon? _trayIcon;
-    private MainWindow? _mainWindow;
+    private SettingsWindow? _settingsWindow; // Use SettingsWindow instead of MainWindow
 
     // Tray menu items
     private MenuItem? _miCapture;
@@ -32,8 +32,9 @@ public partial class App : System.Windows.Application
         _trayIcon = (TaskbarIcon)FindResource("TrayIcon");
 
         // Create settings window but keep it hidden (tray app stays alive)
-        _mainWindow = new MainWindow(Settings);
-        _mainWindow.Hide();
+        _settingsWindow = new SettingsWindow();
+        _settingsWindow.SetVoiceService(_voice ?? new VoiceCommandService());
+        _settingsWindow.Hide();
 
         WireTrayMenuHandlers();
         UpdateTrayModeChecks();
@@ -153,7 +154,6 @@ public partial class App : System.Windows.Application
     {
         Settings.Mode = CaptureMode.ActiveWindowMonitor;
         UpdateTrayModeChecks();
-        _mainWindow?.SyncFromSettings();
         _trayIcon?.ShowBalloonTip("ScreenWarden", "Mode: Active Window Monitor", BalloonIcon.Info);
     }
 
@@ -161,7 +161,6 @@ public partial class App : System.Windows.Application
     {
         Settings.Mode = CaptureMode.MouseCursorMonitor;
         UpdateTrayModeChecks();
-        _mainWindow?.SyncFromSettings();
         _trayIcon?.ShowBalloonTip("ScreenWarden", "Mode: Mouse Cursor Monitor", BalloonIcon.Info);
     }
 
@@ -169,23 +168,20 @@ public partial class App : System.Windows.Application
     {
         Dispatcher.Invoke(() =>
         {
-            if (_mainWindow == null) return;
-
-            // Initialize voice commands control
-            if (_voice != null)
+            if (_settingsWindow == null)
             {
-                _mainWindow.SetVoiceService(_voice);
+                _settingsWindow = new SettingsWindow();
+                _settingsWindow.SetVoiceService(_voice!);
             }
 
-            if (!_mainWindow.IsVisible)
-                _mainWindow.Show();
+            if (!_settingsWindow.IsVisible)
+                _settingsWindow.Show();
 
-            _mainWindow.SyncFromSettings();
-            _mainWindow.WindowState = WindowState.Normal;
-            _mainWindow.Activate();
-            _mainWindow.Topmost = true;
-            _mainWindow.Topmost = false;
-            _mainWindow.Focus();
+            _settingsWindow.WindowState = WindowState.Normal;
+            _settingsWindow.Activate();
+            _settingsWindow.Topmost = true;
+            _settingsWindow.Topmost = false;
+            _settingsWindow.Focus();
         });
     }
 

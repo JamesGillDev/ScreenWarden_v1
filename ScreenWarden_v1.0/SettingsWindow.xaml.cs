@@ -2,6 +2,8 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.Linq;
 using ScreenWarden.Models;
+using System;
+using System.Windows.Forms;
 
 namespace ScreenWarden
 {
@@ -20,6 +22,11 @@ namespace ScreenWarden
             EditVoiceCommandButton.Click += EditVoiceCommandButton_Click;
             DeleteVoiceCommandButton.Click += DeleteVoiceCommandButton_Click;
             ResetVoiceCommandsButton.Click += ResetVoiceCommandsButton_Click;
+            ModeComboBox.ItemsSource = Enum.GetValues(typeof(CaptureMode));
+            ModeComboBox.SelectedItem = CaptureMode.MouseCursorMonitor;
+            ModeComboBox.SelectionChanged += ModeComboBox_SelectionChanged;
+            BrowseButton.Click += BrowseButton_Click;
+            CaptureNowButton.Click += CaptureNowButton_Click;
         }
 
         public void SetVoiceService(VoiceCommandService voiceService)
@@ -44,6 +51,7 @@ namespace ScreenWarden
                 dlg.Command.IsBuiltIn = false;
                 _voiceCommands.Add(dlg.Command);
                 SaveVoiceCommands();
+                VoiceCommandsComboBox.Items.Refresh();
             }
         }
 
@@ -56,6 +64,7 @@ namespace ScreenWarden
                 var idx = _voiceCommands.IndexOf(sel);
                 if (idx >= 0) _voiceCommands[idx] = dlg.Command;
                 SaveVoiceCommands();
+                VoiceCommandsComboBox.Items.Refresh();
             }
         }
 
@@ -65,6 +74,7 @@ namespace ScreenWarden
             {
                 _voiceCommands.Remove(sel);
                 SaveVoiceCommands();
+                VoiceCommandsComboBox.Items.Refresh();
             }
         }
 
@@ -74,6 +84,7 @@ namespace ScreenWarden
             foreach (var cmd in ScreenWarden.Services.VoiceCommandsSettings.CreateDefault().Commands)
                 _voiceCommands.Add(cmd);
             SaveVoiceCommands();
+            VoiceCommandsComboBox.Items.Refresh();
         }
 
         private void SaveVoiceCommands()
@@ -83,6 +94,43 @@ namespace ScreenWarden
             {
                 Commands = _voiceCommands.Select(c => c.Clone()).ToList()
             });
+        }
+
+        private void ModeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (ModeComboBox.SelectedItem is CaptureMode mode)
+            {
+                // Update your settings here if needed
+            }
+        }
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                SavePathTextBox.Text = dialog.SelectedPath;
+                // Optionally update your settings here
+            }
+        }
+
+        private void CaptureNowButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // You may need to reference your AppSettings or ScreenCaptureService
+                var settings = new AppSettings
+                {
+                    Mode = ModeComboBox.SelectedItem is CaptureMode mode ? mode : CaptureMode.MouseCursorMonitor,
+                    SaveFolder = SavePathTextBox.Text
+                };
+                var path = ScreenCaptureService.CaptureToFile(settings);
+                System.Windows.MessageBox.Show($"Screenshot saved: {path}", "Capture Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Capture failed: {ex.Message}", "Capture Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
