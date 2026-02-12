@@ -1,140 +1,179 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Speech.Recognition;
+using ScreenWarden.Models;
+using ScreenWarden.Services;
 
-namespace ScreenWarden;
-
-public sealed class VoiceCommandService : IDisposable
+namespace ScreenWarden
 {
-    private SpeechRecognitionEngine? _engine;
-
-    // If false, we keep the engine alive but ignore commands (fast toggle, no re-init delay).
-    public bool IsEnabled { get; private set; } = true;
-
-    // Events the app subscribes to
-    public event Action? ScreenshotRequested;
-    public event Action? OpenSettingsRequested;
-    public event Action? ExitRequested;
-
-    // Fires when Voice On/Off changes (so App.xaml.cs can show tray balloons)
-    public event Action<bool>? VoiceStateChanged;
-
-    public void Start()
+    public sealed class VoiceCommandService : IDisposable
     {
-        if (_engine != null) return;
+        private SpeechRecognitionEngine? _engine;
+        private VoiceCommandsSettings _settings;
+        private CultureInfo? _culture;
 
-        // Use Windows UI language
-        var culture = CultureInfo.InstalledUICulture;
+        public bool IsEnabled { get; private set; } = true;
 
-        _engine = new SpeechRecognitionEngine(culture);
+        public event Action? ScreenshotRequested;
+        public event Action? OpenSettingsRequested;
+        public event Action? ExitRequested;
+        public event Action<bool>? VoiceStateChanged;
 
-        // Keep commands tight to reduce false triggers
-        // (Removed "quit" and "clip" per your request)
-        var commands = new Choices(
-            "voice on screen warden",
-            "voice off screen warden",
-            "screenshot",
-            "capture",
-            "open settings",
-            "settings",
-            // Make exit require the app name to reduce accidental shutdown
-            "exit screen warden"
-        );
-
-        var grammarBuilder = new GrammarBuilder(commands) { Culture = culture };
-        var grammar = new Grammar(grammarBuilder);
-
-        _engine.LoadGrammar(grammar);
-
-        // Default mic
-        _engine.SetInputToDefaultAudioDevice();
-
-        _engine.SpeechRecognized += Engine_SpeechRecognized;
-        _engine.RecognizeAsync(RecognizeMode.Multiple);
-
-        // Initial state notification
-        VoiceStateChanged?.Invoke(IsEnabled);
-    }
-
-    public void Enable()
-    {
-        if (IsEnabled) return;
-        IsEnabled = true;
-        VoiceStateChanged?.Invoke(true);
-    }
-
-    public void Disable()
-    {
-        if (!IsEnabled) return;
-        IsEnabled = false;
-        VoiceStateChanged?.Invoke(false);
-    }
-
-    public void Toggle()
-    {
-        if (IsEnabled) Disable();
-        else Enable();
-    }
-
-    private void Engine_SpeechRecognized(object? sender, SpeechRecognizedEventArgs e)
-    {
-        // Confidence threshold: raise it if you’re getting accidental triggers
-        if (e.Result.Confidence < 0.70) return;
-
-        var text = e.Result.Text.ToLowerInvariant();
-
-        // Voice ON/OFF always allowed (even when disabled)
-        if (text == "voice on screen warden")
+        public VoiceCommandService()
         {
-            Enable();
-            return;
+            _settings = VoiceCommandsSettings.Load();
         }
 
-        if (text == "voice off screen warden")
+        public VoiceCommandsSettings GetSettings() => _settings;
+
+        public void UpdateSettings(VoiceCommandsSettings settings)
         {
-            Disable();
-            return;
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
+            _settings = settings;
+            _settings.Save();
+            ReloadGrammar();
         }
 
-        // If voice is off, ignore everything else
-        if (!IsEnabled) return;
-
-        switch (text)
+        public void Start()
         {
-            case "screenshot":
-            case "capture":
-                ScreenshotRequested?.Invoke();
-                break;
+            if (_engine != null) return;
 
-            case "open settings":
-            case "settings":
-                OpenSettingsRequested?.Invoke();
-                break;
+            // Force culture to en-US for testing
+            _culture = new CultureInfo("en-US");
+            _engine = new SpeechRecognitionEngine(_culture);
 
-            case "exit screen warden":
-                ExitRequested?.Invoke();
-                break;
+            LoadGrammarFromSettings();
+
+            _engine.SetInputToDefaultAudioDevice();
+            _engine.SpeechRecognized += Engine_SpeechRecognized;
+            _engine.RecognizeAsync(RecognizeMode.Multiple);
+
+            VoiceStateChanged?.Invoke(IsEnabled);
         }
+
+        private void LoadGrammarFromSettings()
+        {
+            if (_engine == null || _culture == null) return;
+
+            var enabledPhrases = _settings.Commands
+                .Where(c => c.IsEnabled && !string.IsNullOrWhiteSpace(c.Phrase))
+                .Select(c => c.Phrase.ToLowerInvariant())
+                .Distinct()
+                .ToArray();
+
+            if (enabledPhrases.Length == 0)
+            {
+                enabledPhrases = new[] { "screen warden placeholder" };
+            }
+
+            var commands = new Choices(enabledPhrases);
+            var grammarBuilder = new GrammarBuilder(commands) { Culture = _culture };
+            var grammar = new Grammar(grammarBuilder);
+
+            _engine.UnloadAllGrammars();
+            _engine.LoadGrammar(grammar);
+        }
+
+        public void ReloadGrammar()
+        {
+            if (_engine == null) return;
+
+            try
+            {
+                _engine.RecognizeAsyncCancel();
+                LoadGrammarFromSettings();
+                _engine.RecognizeAsync(RecognizeMode.Multiple);
+            }
+            catch
+            {
+                // Ignore reload errors
+            }
+        }
+
+        public void Enable()
+        {
+            if (IsEnabled) return;
+            IsEnabled = true;
+            VoiceStateChanged?.Invoke(true);
+        }
+
+        public void Disable()
+        {
+            if (!IsEnabled) return;
+            IsEnabled = false;
+            VoiceStateChanged?.Invoke(false);
+        }
+
+        public void Toggle()
+        {
+            if (IsEnabled) Disable();
+            else Enable();
+        }
+
+        private void Engine_SpeechRecognized(object? sender, SpeechRecognizedEventArgs e)
+        {
+            // Log recognized text and confidence
+            Console.WriteLine($"Recognized: '{e.Result.Text}' Confidence: {e.Result.Confidence}");
+
+            // Lower threshold for testing
+            if (e.Result.Confidence < 0.50) return;
+
+            var text = e.Result.Text.ToLowerInvariant();
+
+            var command = _settings.Commands
+                .FirstOrDefault(c => c.IsEnabled && c.Phrase.Equals(text, StringComparison.OrdinalIgnoreCase));
+
+            if (command == null)
+            {
+                Console.WriteLine("No matching command found.");
+                return;
+            }
+
+            if (command.Action == VoiceCommandAction.VoiceOn)
+            {
+                Enable();
+                return;
+            }
+
+            if (command.Action == VoiceCommandAction.VoiceOff)
+            {
+                Disable();
+                return;
+            }
+
+            if (!IsEnabled) return;
+
+            switch (command.Action)
+            {
+                case VoiceCommandAction.Screenshot:
+                    ScreenshotRequested?.Invoke();
+                    break;
+                case VoiceCommandAction.OpenSettings:
+                    OpenSettingsRequested?.Invoke();
+                    break;
+                case VoiceCommandAction.Exit:
+                    ExitRequested?.Invoke();
+                    break;
+            }
+        }
+
+        public void Stop()
+        {
+            if (_engine == null) return;
+
+            try
+            {
+                _engine.SpeechRecognized -= Engine_SpeechRecognized;
+                _engine.RecognizeAsyncCancel();
+                _engine.RecognizeAsyncStop();
+            }
+            catch { }
+
+            _engine.Dispose();
+            _engine = null;
+        }
+
+        public void Dispose() => Stop();
     }
-
-    public void Stop()
-    {
-        if (_engine == null) return;
-
-        try
-        {
-            _engine.SpeechRecognized -= Engine_SpeechRecognized;
-            _engine.RecognizeAsyncCancel();
-            _engine.RecognizeAsyncStop();
-        }
-        catch
-        {
-            // ignore shutdown noise
-        }
-
-        _engine.Dispose();
-        _engine = null;
-    }
-
-    public void Dispose() => Stop();
 }

@@ -25,6 +25,8 @@ public partial class App : System.Windows.Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        ScreenWarden.Services.VoiceCommandsSettings.CreateDefaultFile(); // <-- Add this line
+
         base.OnStartup(e);
 
         _trayIcon = (TaskbarIcon)FindResource("TrayIcon");
@@ -169,6 +171,12 @@ public partial class App : System.Windows.Application
         {
             if (_mainWindow == null) return;
 
+            // Initialize voice commands control
+            if (_voice != null)
+            {
+                _mainWindow.SetVoiceService(_voice);
+            }
+
             if (!_mainWindow.IsVisible)
                 _mainWindow.Show();
 
@@ -287,5 +295,13 @@ public partial class App : System.Windows.Application
     public void ShowVoiceCommandsOnToast()
     {
         ShowToast("ScreenWarden", "Voice commands ON");
+    }
+
+    private void ShowSettings()
+    {
+        StartVoiceService(); // ensure _voice exists
+        var settingsWindow = new SettingsWindow();
+        settingsWindow.SetVoiceService(_voice!);
+        settingsWindow.ShowDialog();
     }
 }

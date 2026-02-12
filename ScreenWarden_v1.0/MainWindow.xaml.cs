@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Windows.Media;
+using ScreenWarden.Controls;
 
 namespace ScreenWarden;
 
@@ -104,6 +105,11 @@ public partial class MainWindow : Window
         {
             StatusText.Text = $"Error: {ex.Message}";
         }
+    }
+
+    public void SetVoiceService(VoiceCommandService voiceService)
+    {
+        // Voice commands are now in SettingsWindow
     }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
