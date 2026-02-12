@@ -10,6 +10,13 @@ ScreenWarden is a modern, open-source Windows utility for automated and voice-ac
 - Modern WPF UI with dark mode
 - .NET 8 support
 
+## Voice Command Sensitivity
+ScreenWarden uses Windows Speech Recognition, which works best with clear, common English words and phrases. Some words (especially those with unusual sounds, slang, or strong consonants) may not be recognized reliably. For best results:
+- Use simple, distinct phrases (e.g., "capture", "screenshot", "open settings").
+- Avoid words that sound similar to each other or are difficult for speech engines (e.g., "pickle", profanity, or slang).
+- Speak clearly and at a moderate pace.
+- You can add, edit, or remove voice commands in the Settings window to find what works best for your voice and environment.
+
 ## Getting Started
 
 ### Prerequisites
