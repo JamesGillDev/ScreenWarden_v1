@@ -95,4 +95,4 @@ This project is actively developed. Planned enhancements include:
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the BSL-1.1 License.
