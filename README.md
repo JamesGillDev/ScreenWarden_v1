@@ -13,6 +13,7 @@ The app stays resident in the system tray, provides clear feedback, and allows s
 - Visual and audio feedback on capture
 - Automatic file naming
 - Designed for fast, repeatable use
+- Voice Command Edit Option
 
 ## How It Works
 
