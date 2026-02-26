@@ -61,24 +61,39 @@ If recognition is inconsistent, adjust phrases in Settings to shorter or less si
 
 ## Screenshots
 
-### Settings - Active Window Monitor
+### Settings Window
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/cd4b506e-1df2-4106-8b2d-faf9aaf82ac8" width="520" />
+  <img src="ScreenWarden_v1.0/docs/screenshots/settings-main.png" width="680" alt="ScreenWarden settings window" />
 </p>
 
-### Settings - Mouse Cursor Monitor
+### Voice Commands Dropdown
 <p align="center">
-  <img width="506" height="343" alt="settings-mouse" src="https://github.com/user-attachments/assets/139ebd98-7362-4f1e-909e-c580cd88e5ec" />
+  <img src="ScreenWarden_v1.0/docs/screenshots/settings-voice-commands-dropdown.png" width="680" alt="Voice commands dropdown in settings" />
 </p>
 
-### System Tray Icon
+### Capture Mode Dropdown
 <p align="center">
-  <img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/a4decc30-9072-425f-b992-d8d83183593c" />
+  <img src="ScreenWarden_v1.0/docs/screenshots/settings-mode-dropdown.png" width="680" alt="Capture mode dropdown in settings" />
+</p>
+
+### Edit Voice Command (Empty)
+<p align="center">
+  <img src="ScreenWarden_v1.0/docs/screenshots/voice-command-edit-empty.png" width="420" alt="Empty edit voice command dialog" />
+</p>
+
+### Edit Voice Command (Action List)
+<p align="center">
+  <img src="ScreenWarden_v1.0/docs/screenshots/voice-command-edit-action-dropdown.png" width="420" alt="Edit voice command dialog with action list open" />
+</p>
+
+### Edit Voice Command (Configured)
+<p align="center">
+  <img src="ScreenWarden_v1.0/docs/screenshots/voice-command-edit-filled.png" width="420" alt="Configured edit voice command dialog" />
 </p>
 
 ### Tray Menu
 <p align="center">
-  <img width="217" height="144" alt="tray-menu" src="https://github.com/user-attachments/assets/08e8265a-a097-415c-9c39-47a0c886b890" />
+  <img src="ScreenWarden_v1.0/docs/screenshots/tray-menu-context.png" width="220" alt="ScreenWarden tray context menu" />
 </p>
 
 ## License
