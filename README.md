@@ -1,98 +1,86 @@
 # ScreenWarden
 
-A lightweight Windows desktop utility for fast, distraction-free screenshots with optional voice control and system tray operation.
+ScreenWarden is a lightweight Windows utility for fast, distraction-free screenshots with optional voice commands and tray-first controls.
 
-ScreenWarden was built to support focused workflows where stopping to manage UI or file dialogs breaks concentration. 
-The app stays resident in the system tray, provides clear feedback, and allows screenshots to be captured instantly — including via optional voice commands.
+## Highlights
 
-## Features
-
-- One-click screenshot capture
-- Optional voice-command activation
-- Runs quietly in the Windows system tray
-- Visual and audio feedback on capture
-- Automatic file naming
-- Designed for fast, repeatable use
-- Voice Command Edit Option
-
-## How It Works
-
-ScreenWarden is a WPF desktop application built on .NET.  
-It initializes as a background process with a tray icon and listens for user input via UI interaction or optional voice commands.
-
-Screenshot capture is handled by a dedicated service layer, separating UI concerns from system interaction. 
-This structure allows future expansion such as region capture, hotkeys, or multi-monitor support.
-
-## Key Features
-
-- Background tray-based Windows utility
-- Active Window or Mouse Cursor capture modes
-- One-click capture from tray or settings window
+- Tray-based screenshot workflow
+- Capture the active window or monitor under mouse cursor
 - Optional voice-triggered commands
-- Clean Windows 11–styled WPF UI
-- Designed for speed and minimal disruption
+- Visual and audio capture feedback
+- Editable voice command list in Settings
+- Automatic file naming and save path support
+
+## Repository Layout
+
+- `ScreenWarden_v1.0/` - Main WPF application source
+- `CreateRelease.ps1` - Packaging script for release ZIP output
+- `ScreenWarden_v1.0_win-x64.zip` - Current packaged artifact at repository root
+
+## Requirements
+
+- Windows 10/11 (x64)
+- .NET 8 Desktop Runtime (Windows x64) to run
+- .NET 8 SDK to build from source
+
+## Build
+
+```powershell
+dotnet build .\ScreenWarden_v1.0\ScreenWarden.csproj -c Release
+```
+
+## Run (Development)
+
+```powershell
+dotnet run --project .\ScreenWarden_v1.0\ScreenWarden.csproj
+```
+
+## Publish + Package for GitHub Release
+
+From repository root:
+
+```powershell
+dotnet publish .\ScreenWarden_v1.0\ScreenWarden.csproj -c Release
+.\CreateRelease.ps1
+```
+
+This produces:
+
+- `ScreenWarden_v1.0\bin\Release\net8.0-windows10.0.19041.0\publish\` (publish output)
+- `ScreenWarden_v1.0_win-x64.zip` (release-ready ZIP at root)
+
+## Voice Command Notes
+
+ScreenWarden uses Windows Speech Recognition. Accuracy is best with clear, distinct phrases such as:
+
+- `capture`
+- `take screenshot`
+- `open settings`
+
+If recognition is inconsistent, adjust phrases in Settings to shorter or less similar wording.
 
 ## Screenshots
 
-### Settings – Active Window Monitor
+### Settings - Active Window Monitor
 <p align="center">
   <img src="https://github.com/user-attachments/assets/cd4b506e-1df2-4106-8b2d-faf9aaf82ac8" width="520" />
 </p>
 
-Captures the currently active window for precise, focused screenshots.
-
----
-
-### Settings – Mouse Cursor Monitor
+### Settings - Mouse Cursor Monitor
 <p align="center">
   <img width="506" height="343" alt="settings-mouse" src="https://github.com/user-attachments/assets/139ebd98-7362-4f1e-909e-c580cd88e5ec" />
 </p>
-
-Tracks the monitor containing the mouse cursor and captures that display.
-
----
 
 ### System Tray Icon
 <p align="center">
   <img width="234" height="74" alt="tray-icon" src="https://github.com/user-attachments/assets/a4decc30-9072-425f-b992-d8d83183593c" />
 </p>
 
-Always-on tray presence for quick access without interrupting workflow.
-
----
-
 ### Tray Menu
 <p align="center">
   <img width="217" height="144" alt="tray-menu" src="https://github.com/user-attachments/assets/08e8265a-a097-415c-9c39-47a0c886b890" />
 </p>
 
-Quick actions for capture, mode switching, settings, and exit.
-
-## Download
-Download the latest release from the Releases page:
-- ScreenWarden_v1.0.0_win-x64_framework-dependent.zip
-
-## Requirements
-- Windows 10/11 (x64)
-- **.NET 8 Desktop Runtime (Windows x64)**
-
-If ScreenWarden doesn’t launch, install the .NET Desktop Runtime and try again.
-
-## Tech Stack
-
-- C#
-- .NET 8
-- WPF
-- Windows Desktop APIs
-
-## Status
-
-This project is actively developed. Planned enhancements include:
-- Global hotkey support
-- Region-based capture
-- Multi-monitor awareness
-- Optional image preview overlay
-
 ## License
 
-This project is licensed under the BSL-1.1 License.
+Licensed under BSL-1.1. See `LICENSE`.

@@ -25,15 +25,16 @@ public partial class App : System.Windows.Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        ScreenWarden.Services.VoiceCommandsSettings.CreateDefaultFile(); // <-- Add this line
+        ScreenWarden.Services.VoiceCommandsSettings.CreateDefaultFile();
 
         base.OnStartup(e);
 
         _trayIcon = (TaskbarIcon)FindResource("TrayIcon");
+        _voice = new VoiceCommandService();
 
         // Create settings window but keep it hidden (tray app stays alive)
-        _settingsWindow = new SettingsWindow();
-        _settingsWindow.SetVoiceService(_voice ?? new VoiceCommandService());
+        _settingsWindow = new SettingsWindow(Settings);
+        _settingsWindow.SetVoiceService(_voice);
         _settingsWindow.Hide();
 
         WireTrayMenuHandlers();
@@ -154,6 +155,7 @@ public partial class App : System.Windows.Application
     {
         Settings.Mode = CaptureMode.ActiveWindowMonitor;
         UpdateTrayModeChecks();
+        _settingsWindow?.SyncFromSettings();
         _trayIcon?.ShowBalloonTip("ScreenWarden", "Mode: Active Window Monitor", BalloonIcon.Info);
     }
 
@@ -161,6 +163,7 @@ public partial class App : System.Windows.Application
     {
         Settings.Mode = CaptureMode.MouseCursorMonitor;
         UpdateTrayModeChecks();
+        _settingsWindow?.SyncFromSettings();
         _trayIcon?.ShowBalloonTip("ScreenWarden", "Mode: Mouse Cursor Monitor", BalloonIcon.Info);
     }
 
@@ -170,9 +173,19 @@ public partial class App : System.Windows.Application
         {
             if (_settingsWindow == null)
             {
-                _settingsWindow = new SettingsWindow();
-                _settingsWindow.SetVoiceService(_voice!);
+                _settingsWindow = new SettingsWindow(Settings);
+                if (_voice == null)
+                {
+                    StartVoiceService();
+                }
+
+                if (_voice != null)
+                {
+                    _settingsWindow.SetVoiceService(_voice);
+                }
             }
+
+            _settingsWindow.SyncFromSettings();
 
             if (!_settingsWindow.IsVisible)
                 _settingsWindow.Show();
@@ -296,8 +309,9 @@ public partial class App : System.Windows.Application
     private void ShowSettings()
     {
         StartVoiceService(); // ensure _voice exists
-        var settingsWindow = new SettingsWindow();
+        var settingsWindow = new SettingsWindow(Settings);
         settingsWindow.SetVoiceService(_voice!);
+        settingsWindow.SyncFromSettings();
         settingsWindow.ShowDialog();
     }
 }

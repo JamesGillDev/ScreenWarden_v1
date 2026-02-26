@@ -19,7 +19,7 @@ public static class TrayCaptureService
 
             // Balloon tip (nice feedback without stealing focus)
             trayIcon.ShowBalloonTip(
-                "GazeShot",
+                "ScreenWarden",
                 $"Saved:\n{path}",
                 BalloonIcon.Info);
 
@@ -29,7 +29,7 @@ public static class TrayCaptureService
         catch (Exception ex)
         {
             trayIcon.ShowBalloonTip(
-                "GazeShot Error",
+                "ScreenWarden Error",
                 ex.Message,
                 BalloonIcon.Error);
         }

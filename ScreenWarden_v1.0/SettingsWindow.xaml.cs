@@ -9,11 +9,13 @@ namespace ScreenWarden
 {
     public partial class SettingsWindow : Window
     {
+        private readonly AppSettings _appSettings;
         private VoiceCommandService? _voiceService;
         private ObservableCollection<VoiceCommand> _voiceCommands = new();
 
-        public SettingsWindow()
+        public SettingsWindow(AppSettings appSettings)
         {
+            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
             InitializeComponent();
             VoiceCommandsComboBox.ItemsSource = _voiceCommands;
             VoiceCommandsComboBox.DisplayMemberPath = "Phrase";
@@ -23,10 +25,16 @@ namespace ScreenWarden
             DeleteVoiceCommandButton.Click += DeleteVoiceCommandButton_Click;
             ResetVoiceCommandsButton.Click += ResetVoiceCommandsButton_Click;
             ModeComboBox.ItemsSource = Enum.GetValues(typeof(CaptureMode));
-            ModeComboBox.SelectedItem = CaptureMode.MouseCursorMonitor;
             ModeComboBox.SelectionChanged += ModeComboBox_SelectionChanged;
             BrowseButton.Click += BrowseButton_Click;
             CaptureNowButton.Click += CaptureNowButton_Click;
+            SyncFromSettings();
+        }
+
+        public void SyncFromSettings()
+        {
+            ModeComboBox.SelectedItem = _appSettings.Mode;
+            SavePathTextBox.Text = _appSettings.SaveFolder;
         }
 
         public void SetVoiceService(VoiceCommandService voiceService)
@@ -100,7 +108,7 @@ namespace ScreenWarden
         {
             if (ModeComboBox.SelectedItem is CaptureMode mode)
             {
-                // Update your settings here if needed
+                _appSettings.Mode = mode;
             }
         }
 
@@ -110,7 +118,7 @@ namespace ScreenWarden
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 SavePathTextBox.Text = dialog.SelectedPath;
-                // Optionally update your settings here
+                _appSettings.SaveFolder = dialog.SelectedPath;
             }
         }
 
@@ -118,13 +126,17 @@ namespace ScreenWarden
         {
             try
             {
-                // You may need to reference your AppSettings or ScreenCaptureService
-                var settings = new AppSettings
+                if (ModeComboBox.SelectedItem is CaptureMode mode)
                 {
-                    Mode = ModeComboBox.SelectedItem is CaptureMode mode ? mode : CaptureMode.MouseCursorMonitor,
-                    SaveFolder = SavePathTextBox.Text
-                };
-                var path = ScreenCaptureService.CaptureToFile(settings);
+                    _appSettings.Mode = mode;
+                }
+
+                if (!string.IsNullOrWhiteSpace(SavePathTextBox.Text))
+                {
+                    _appSettings.SaveFolder = SavePathTextBox.Text;
+                }
+
+                var path = ScreenCaptureService.CaptureToFile(_appSettings);
                 System.Windows.MessageBox.Show($"Screenshot saved: {path}", "Capture Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)

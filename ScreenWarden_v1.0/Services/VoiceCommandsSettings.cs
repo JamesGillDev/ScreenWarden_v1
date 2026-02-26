@@ -64,12 +64,19 @@ namespace ScreenWarden.Services
 
         public static void CreateDefaultFile()
         {
-            if (!Directory.Exists(SettingsFolder))
-                Directory.CreateDirectory(SettingsFolder);
+            try
+            {
+                if (!Directory.Exists(SettingsFolder))
+                    Directory.CreateDirectory(SettingsFolder);
 
-            var settings = CreateDefault();
-            var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(SettingsFile, json);
+                if (File.Exists(SettingsFile))
+                    return;
+
+                var settings = CreateDefault();
+                var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(SettingsFile, json);
+            }
+            catch { }
         }
     }
 }

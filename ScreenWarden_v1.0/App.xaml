@@ -26,6 +26,7 @@
                     <Separator/>
 
                     <MenuItem x:Name="TrayOpenSettings" Header="Open Settings"/>
+                    <MenuItem x:Name="TrayVoiceToggle" Header="Voice: On/Off" IsCheckable="True"/>
                     <MenuItem x:Name="TrayExit" Header="Exit"/>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
