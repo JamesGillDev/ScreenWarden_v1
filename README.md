@@ -15,7 +15,8 @@ ScreenWarden is a lightweight Windows utility for fast, distraction-free screens
 
 - `ScreenWarden_v1.0/` - Main WPF application source
 - `CreateRelease.ps1` - Packaging script for release ZIP output
-- `ScreenWarden_v1.0_win-x64.zip` - Current packaged artifact at repository root
+- `CHANGELOG.md` - Public release history by version
+- `release-artifacts/` - Versioned release ZIP output folder
 
 ## Requirements
 
@@ -47,7 +48,22 @@ dotnet publish .\ScreenWarden_v1.0\ScreenWarden.csproj -c Release
 This produces:
 
 - `ScreenWarden_v1.0\bin\Release\net8.0-windows10.0.19041.0\publish\` (publish output)
-- `ScreenWarden_v1.0_win-x64.zip` (release-ready ZIP at root)
+- `release-artifacts\ScreenWarden_v<version>_win-x64.zip` (release-ready ZIP)
+
+## Versioning for GitHub Releases
+
+- App version metadata is defined in `ScreenWarden_v1.0/ScreenWarden.csproj` (`Version`, `AssemblyVersion`, `FileVersion`, `InformationalVersion`).
+- Public release history is tracked in `CHANGELOG.md`.
+- `CreateRelease.ps1` reads the project version and names artifacts like `ScreenWarden_v1.1.0_win-x64.zip`.
+
+Recommended release flow:
+
+```powershell
+dotnet publish .\ScreenWarden_v1.0\ScreenWarden.csproj -c Release
+.\CreateRelease.ps1
+git tag v1.1.0
+git push origin v1.1.0
+```
 
 ## Voice Command Notes
 

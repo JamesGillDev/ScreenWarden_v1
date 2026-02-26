@@ -19,3 +19,6 @@ obj/
 __pycache__/
 build/
 dist/
+
+# Local release packaging output
+release-artifacts/
